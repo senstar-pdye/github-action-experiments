@@ -7,7 +7,7 @@ jobs:
     # Does not delete environemnts names 'testing', 'staging', or 'production'.
     delete-deployment-environment:
         if: ${{ github.event.ref_type == 'branch' && github.event.ref != 'testing' && github.event.ref != 'staging' && github.event.ref != 'production' }} 
-        runs-on: [self-hosted, action, jackson]
+        runs-on: ubuntu-latest
 
         steps:
           - name: Get GitHub App token
