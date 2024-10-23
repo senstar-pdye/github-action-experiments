@@ -1,0 +1,25 @@
+name: create-deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment-name:
+        description: 'Name of the deployment environment'
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    name: Create Deployment
+    env:
+      GITHUB_DEPLOY_ENVIRONMENT: ${{ inputs.environment-name }}
+
+    runs-on: [self-hosted, action, jackson]
+
+    steps:
+      - name: Create new deployment
+        uses: chrnorm/deployment-action@v2
+        with:
+          token: '${{ github.token }}'
+          environment: ${{ env.GITHUB_DEPLOY_ENVIRONMENT }}
+

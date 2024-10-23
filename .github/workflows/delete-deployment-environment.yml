@@ -1,0 +1,24 @@
+name: delete-deployment-environment
+
+on: delete
+
+jobs:
+    # Deletes the deployment environemnt with the same name as the branch that was deleted.
+    # Does not delete environemnts names 'testing', 'staging', or 'production'.
+    delete-deployment-environment:
+        if: ${{ github.event.ref_type == 'branch' && github.event.ref != 'testing' && github.event.ref != 'staging' && github.event.ref != 'production' }} 
+        runs-on: [self-hosted, action, jackson]
+
+        steps:
+          - name: Get GitHub App token
+            uses: navikt/github-app-token-generator@v1.1.1
+            id: get-token
+            with:
+              app-id: ${{ secrets.GH_APP_ID }}
+              private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+
+          - name: Delete deployment environment
+            uses: strumwolf/delete-deployment-environment@v3.0.0
+            with: 
+                token: ${{ steps.get-token.outputs.token }}
+                environment: ${{ github.event.ref }}
