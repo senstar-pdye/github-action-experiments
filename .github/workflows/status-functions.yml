@@ -1,0 +1,21 @@
+name: Status Functions
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Check Formatting
+      run: exit 0
+
+    - name: Run Build
+      run: exit 1
+
+    - name: Run Tests
+      run: exit 0
+
+    - name: Output status
+      if: always()
+      run: echo ${{ failure() && 'failure' || cancelled() && 'cancelled' || success() && 'success' }}
