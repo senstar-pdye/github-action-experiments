@@ -16,6 +16,26 @@ jobs:
     - name: Run Tests
       run: exit 0
 
+    # - name: Determine Status
+    #   id: status
+    #   if: always()
+    #   run: |
+    #     if ( ${{ job.status == 'failure' }} )
+    #     {
+    #         echo "status=failure" >> $GITHUB_OUTPUT
+    #     }
+    #     else if ( cancelled() )
+    #     {
+    #         echo "status=cancelled" >> $GITHUB_OUTPUT
+    #     }
+    #     else if ( success() )
+    #     {
+    #         echo "status=success" >> $GITHUB_OUTPUT
+    #     }
+    #     else {
+    #         echo "status=unknown" >> $GITHUB_OUTPUT
+    #     }
+
     - name: Output status
       if: always()
-      run: echo ${{ failure() && 'failure' || cancelled() && 'cancelled' || success() && 'success' }}
+      run: echo "${{ job.status }}"
